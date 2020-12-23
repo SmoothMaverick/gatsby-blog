@@ -12,7 +12,7 @@ module.exports = {
       },
       {
         name: 'About',
-        slug: '/about/',
+        slug: 'https://about.jasonhoang.me',
       },
       {
         name: 'Contact',
@@ -31,7 +31,7 @@ module.exports = {
     {
       resolve: `gatsby-source-prismic`,
       options: {
-        repositoryName: `process.env.REPO_NAME`,
+        repositoryName: `jasonhoang-blog`,
         linkResolver: ({ node, key, value }) => post => `/${post.uid}`,
         schemas: require('./src/gatsby/schema/page.json'),
       },
