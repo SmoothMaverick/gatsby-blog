@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import ReactMarkdown from "react-markdown";
 require('prismjs/themes/prism.css')
 
 const Body = styled.div`
@@ -98,9 +99,9 @@ const Body = styled.div`
 
 const PageBody = props => {
   return (
-    <Body
-      dangerouslySetInnerHTML={{ __html: props.body.childMarkdownRemark.html }}
-    />
+    <Body>
+      <ReactMarkdown source={props.body} />
+    </Body>
   )
 }
 

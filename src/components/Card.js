@@ -37,7 +37,10 @@ const Post = styled.li`
   }
 `
 
-const StyledImg = styled(Img)`
+const StyledImg = styled.img`
+  height: ${props => (props.featured ? '400px' : '200px')};
+  object-fit: cover;
+  object-position: center;
   border-top-left-radius: 1px;
   border-top-right-radius: 1px;
 `
@@ -64,23 +67,18 @@ const Excerpt = styled.p`
   line-height: 1.6;
 `
 
-const Card = ({ slug, heroImage, title, publishDate, body, ...props }) => {
+const Card = ({ slug, title, image, date, ...props }) => {
   return (
     <>
-      {heroImage && body && (
+      {title && (
         <Post featured={props.featured}>
           <Link to={`${props.basePath}/${slug}/`}>
-            <StyledImg fluid={heroImage.fluid} backgroundColor={'#eeeeee'} />
-            <Title>{title}</Title>
-            <Date>{publishDate}</Date>
-            <ReadingTime>
-              {body.childMarkdownRemark.timeToRead} min read
-            </ReadingTime>
-            <Excerpt
-              dangerouslySetInnerHTML={{
-                __html: body.childMarkdownRemark.excerpt,
-              }}
+            <StyledImg
+              src={image}
+              featured={props.featured}
             />
+            <Title>{title}</Title>
+            <Date>{date}</Date>
           </Link>
         </Post>
       )}

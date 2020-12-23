@@ -45,7 +45,7 @@ const Layout = props => {
         <Menu />
         <div id="main">{props.children}</div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
       <Global styles={globalStyles} />
     </Root>
   )

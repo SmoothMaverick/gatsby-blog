@@ -11,30 +11,30 @@ import Pagination from '../components/Pagination'
 import Container from '../components/Container'
 
 const TagTemplate = ({ data, pageContext }) => {
-  const posts = orderBy(
-    data.contentfulTag.post,
-    // eslint-disable-next-line
-    [object => new moment(object.publishDateISO)],
-    ['desc']
-  )
+  // const posts = orderBy(
+  //   data.prismicTag.post,
+  //   // eslint-disable-next-line
+  //   [object => new moment(object.publishDateISO)],
+  //   ['desc']
+  // )
 
-  const { title } = data.contentfulTag
-  const numberOfPosts = posts.length
-  const skip = pageContext.skip
-  const limit = pageContext.limit
-  const { humanPageNumber, basePath } = pageContext
+  // const { title } = data.prismicTag
+  // const numberOfPosts = posts.length
+  // const skip = pageContext.skip
+  // const limit = pageContext.limit
+  // const { humanPageNumber, basePath } = pageContext
 
-  let ogImage
-  try {
-    ogImage = posts[0].heroImage.ogimg.src
-  } catch (error) {
-    ogImage = null
-  }
+  // let ogImage
+  // try {
+  //   ogImage = posts[0].heroImage.ogimg.src
+  // } catch (error) {
+  //   ogImage = null
+  // }
 
   return (
     <>
       <Layout>
-        <SEO
+        {/* <SEO
           title={`Tag: ${startCase(title)}`}
           description={`Posts Tagged: ${startCase(title)}`}
           image={ogImage}
@@ -51,43 +51,37 @@ const TagTemplate = ({ data, pageContext }) => {
             ))}
           </CardList>
         </Container>
-        <Pagination context={pageContext} />
+        <Pagination context={pageContext} /> */}
       </Layout>
     </>
   )
 }
 
-export const query = graphql`
-  query($slug: String!) {
-    contentfulTag(slug: { eq: $slug }) {
-      title
-      id
-      slug
-      post {
-        id
-        title
-        slug
-        publishDate(formatString: "MMMM DD, YYYY")
-        publishDateISO: publishDate(formatString: "YYYY-MM-DD")
-        heroImage {
-          title
-          fluid(maxWidth: 1800) {
-            ...GatsbyContentfulFluid_withWebp_noBase64
-          }
-          ogimg: resize(width: 1800) {
-            src
-          }
-        }
-        body {
-          childMarkdownRemark {
-            timeToRead
-            html
-            excerpt(pruneLength: 80)
-          }
-        }
-      }
-    }
-  }
-`
+// export const query = graphql`
+//   query($slug: String!) {
+//     prismicTag(slug: { eq: $slug }) {
+//       title
+//       id
+//       slug
+//       post {
+//         id
+//         title
+//         slug
+//         publishDate(formatString: "MMMM DD, YYYY")
+//         publishDateISO: publishDate(formatString: "YYYY-MM-DD")
+//         heroImage {
+//           url
+//         }
+//         body {
+//           childMarkdownRemark {
+//             timeToRead
+//             html
+//             excerpt(pruneLength: 80)
+//           }
+//         }
+//       }
+//     }
+//   }
+// `
 
 export default TagTemplate

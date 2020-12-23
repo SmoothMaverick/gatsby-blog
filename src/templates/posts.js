@@ -9,7 +9,7 @@ import SEO from '../components/SEO'
 import { startCase } from 'lodash'
 
 const Posts = ({ data, pageContext }) => {
-  const posts = data.allContentfulPost.edges
+  const posts = data.allPrismicPost.edges
   const { humanPageNumber, basePath } = pageContext
   const isFirstPage = humanPageNumber === 1
   let featuredPost
@@ -20,27 +20,46 @@ const Posts = ({ data, pageContext }) => {
   } catch (error) {
     featuredPost = null
   }
-  try {
-    ogImage = posts[0].node.heroImage.ogimg.src
-  } catch (error) {
-    ogImage = null
-  }
 
   return (
     <Layout>
-      <SEO title={startCase(basePath)} image={ogImage} />
+      <SEO
+        title={startCase(basePath)}
+        image={featuredPost.data.heroimage.url}
+      />
       <Container>
         {isFirstPage ? (
           <CardList>
-            <Card {...featuredPost} featured basePath={basePath} />
+            <Card
+              featured
+              basePath={basePath}
+              slug={featuredPost.uid}
+              title={featuredPost.data.title[0].text}
+              image={featuredPost.data.heroimage.url}
+              date={featuredPost.data.date}
+            />
             {posts.slice(1).map(({ node: post }) => (
-              <Card key={post.id} {...post} basePath={basePath} />
+              <Card
+                key={post.id}
+                basePath={basePath}
+                slug={post.uid}
+                title={post.data.title[0].text}
+                image={post.data.heroimage.url}
+                date={post.data.date}
+              />
             ))}
           </CardList>
         ) : (
           <CardList>
             {posts.map(({ node: post }) => (
-              <Card key={post.id} {...post} basePath={basePath} />
+              <Card
+                key={post.id}
+                basePath={basePath}
+                slug={post.uid}
+                title={post.data.title[0].text}
+                image={post.data.heroimage.url}
+                date={post.data.date}
+              />
             ))}
           </CardList>
         )}
@@ -52,32 +71,28 @@ const Posts = ({ data, pageContext }) => {
 
 export const query = graphql`
   query($skip: Int!, $limit: Int!) {
-    allContentfulPost(
-      sort: { fields: [publishDate], order: DESC }
+    allPrismicPost(
+      sort: { fields: data___date, order: DESC }
       limit: $limit
       skip: $skip
     ) {
       edges {
         node {
-          title
+          uid
           id
-          slug
-          publishDate(formatString: "MMMM DD, YYYY")
-          heroImage {
-            title
-            fluid(maxWidth: 1800) {
-              ...GatsbyContentfulFluid_withWebp_noBase64
+          data {
+            title {
+              type
+              text
             }
-            ogimg: resize(width: 1800) {
-              src
+            heroimage {
+              url
             }
-          }
-          body {
-            childMarkdownRemark {
-              timeToRead
-              html
-              excerpt(pruneLength: 80)
+            content {
+              type
+              text
             }
+            date
           }
         }
       }
