@@ -1,9 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: 'GCN',
+    title: 'JH',
     description:
-      'A starter template to build amazing static websites with Gatsby, Prismic and Netlify',
-    siteUrl: 'https://gcn.netlify.com',
+      'Jason Hoang blog',
+    siteUrl: 'https://www.jasonhoang.me',
     image: '/images/share.jpg',
     menuLinks: [
       {
