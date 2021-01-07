@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ReactMarkdown from "react-markdown";
-require('prismjs/themes/prism.css')
+
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import {vscDarkPlus} from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 const Body = styled.div`
   margin: 0 auto;
@@ -90,17 +92,25 @@ const Body = styled.div`
   pre {
     margin: 0 0 2em 0;
     border-radius: 2px;
-    background: ${props => props.theme.colors.secondary} !important;
     span {
       background: inherit !important;
     }
   }
 `
 
+const renderers = {
+  code: ({language, value}) => {
+    return <SyntaxHighlighter style={vscDarkPlus} language={language} children={value} />
+  }
+}
+
 const PageBody = props => {
   return (
     <Body>
-      <ReactMarkdown source={props.body} />
+      <ReactMarkdown
+        source={props.body}
+        renderers={renderers}
+      />
     </Body>
   )
 }
